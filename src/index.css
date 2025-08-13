@@ -1,0 +1,617 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: "Poppins", sans-serif;
+  overflow-x: hidden;
+  background-color: #070c0e;
+}
+
+/* For Hidden Scrollbar */
+.noScrollbar::-webkit-scrollbara {
+  display: none;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* gradient color */
+.darkMes {
+  background-image: radial-gradient(rgb(2, 108, 60) 5%,
+      rgb(0, 106, 64) 15%,
+      rgba(1, 87, 73, 0) 60%);
+}
+
+
+/* Easy use */
+.ani2 {
+  transition: all 0.2s ease-in-out !important;
+}
+
+.ani3 {
+  transition: all 0.3s ease-in-out !important;
+}
+
+.ani5 {
+  transition: all 0.5s ease-in-out !important;
+}
+
+.ani7 {
+  transition: all 0.7s ease-in-out !important;
+}
+
+/* position */
+.center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* No scrollbar */
+.noBar::-webkit-scrollbar {
+  display: none;
+}
+
+.noBar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+
+/* Custom side scrollbar */
+.sideBar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.sideBar::-webkit-scrollbar-track {
+  border-radius: 10px;
+  background: #162026;
+}
+
+.sideBar::-webkit-scrollbar-thumb {
+  background: #2a4d56;
+  border-radius: 10px;
+}
+
+.sideBar::-webkit-scrollbar-thumb:hover {
+  background: #070C0E;
+}
+
+/* Custom side scrollbar - Dark Mode */
+.dark .sideBar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.dark .sideBar::-webkit-scrollbar-track {
+  border-radius: 10px;
+  background: #1a1a1a;
+  /* Darker background for dark mode */
+}
+
+.dark .sideBar::-webkit-scrollbar-thumb {
+  background: #444444;
+  /* Darker thumb for dark mode */
+  border-radius: 10px;
+}
+
+.dark .sideBar::-webkit-scrollbar-thumb:hover {
+  background: #666666;
+  /* Darker hover state for dark mode */
+}
+
+/* For scrollbar */
+.scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.scrollbar::-webkit-scrollbar-track {
+  background: #e6e6e6;
+  border-radius: 3px;
+}
+
+.scrollbar::-webkit-scrollbar-thumb {
+  background: rgb(180, 180, 180);
+  border-radius: 3px;
+}
+
+.scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #969696;
+}
+
+/* Customized date input */
+.adminDate input[type="date"] {
+  position: relative;
+}
+
+.adminDate input[type="date"]::-webkit-calendar-picker-indicator {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: auto;
+  height: auto;
+  color: transparent;
+  background: transparent;
+}
+
+.adminDate input[type="date"] {
+  border: 0;
+  padding: 5px 10px;
+  color: #99a2ba;
+  border-radius: 3px;
+  font-size: 15px;
+  border: 1px solid rgb(0, 0, 0);
+}
+
+/* Jodit */
+.jodit-workplace {
+  min-height: 250px !important;
+}
+
+.jodit-status-bar-link {
+  display: none !important;
+}
+
+.jodit-wysiwyg {
+  min-height: 250px !important;
+}
+
+.jodit_theme_dark.jodit-container:not(.jodit_inline) {
+  background-color: transparent !important;
+  border: 1px solid #16272b;
+}
+
+.jodit-status-bar {
+  background-color: transparent !important;
+}
+
+.jodit_theme_dark.jodit-container:not(.jodit_inline) .jodit-workplace {
+  background-color: transparent !important;
+}
+
+
+.jodit_theme_dark .jodit-workplace+.jodit-status-bar:not(:empty) {
+  border-color: #16272b !important;
+
+}
+
+.jodit_theme_dark .jodit-toolbar__box:not(:empty) {
+  background: #190226 !important;
+}
+
+
+.jodit_theme_dark .jodit-toolbar__box:not(:empty) {
+  border-color: #16272b !important;
+}
+
+.jodit_theme_dark .jodit-wysiwyg {
+  background-color: transparent !important;
+}
+
+.jodit-add-new-line {
+  display: none !important;
+}
+
+.jodit-wysiwyg p {
+  color: white !important;
+}
+
+
+.jodit_theme_dark .jodit-toolbar__box:not(:empty) .jodit-toolbar-editor-collection:after {
+  background-color: #16272b !important;
+}
+
+.jodit-toolbar-button {
+  background: #190226 !important;
+  border-color: #110014 !important;
+}
+
+.jodit-toolbar-button__trigger:hover {
+  background: #2e0e52 !important;
+}
+
+.jodit-toolbar-button button:hover {
+  background: #2e0e52 !important;
+  border-color: #2e0e52 !important;
+}
+
+/* for select arrow */
+select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: white url('data:image/svg+xml;utf8,<svg fill="%23ffffff" height="12px" width="12px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 330 330"><path d="M325.607,79.393c-5.857-5.857-15.355-5.858-21.213,0.001l-139.39,139.393L25.607,79.393 c-5.857-5.857-15.355-5.858-21.213,0.001c-5.858,5.858-5.858,15.355,0,21.213l150.004,150c2.813,2.813,6.628,4.393,10.606,4.393 s7.794-1.581,10.606-4.394l149.996-150C331.465,94.749,331.465,85.251,325.607,79.393z"></path></svg>') no-repeat;
+  background-position: calc(100% - 10px) center;
+  /* border: 1px solid #ccc; */
+  padding-right: 30px;
+}
+
+/* loder */
+.loader {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: inline-block;
+  position: relative;
+  border: 3px solid;
+  border-color: #ffffff #ffffff transparent transparent;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+}
+
+.loader::after,
+.loader::before {
+  content: "";
+  box-sizing: border-box;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  border: 3px solid;
+  border-color: transparent transparent #b03aff #b03aff;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  box-sizing: border-box;
+  animation: rotationBack 0.5s linear infinite;
+  transform-origin: center center;
+}
+
+.loader::before {
+  width: 32px;
+  height: 32px;
+  border-color: #ffffff #ffffff transparent transparent;
+  animation: rotation 1.5s linear infinite;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes rotationBack {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(-360deg);
+  }
+}
+
+
+
+
+
+
+
+/* TipTap Editor Styles */
+.text-editor .ProseMirror {
+  outline: none !important;
+  min-height: 400px;
+  font-family: "Inter", system-ui, sans-serif;
+  line-height: 1.6;
+  cursor: text;
+  position: relative;
+  word-wrap: break-word;
+  white-space: pre-wrap;
+  -webkit-font-variant-ligatures: none;
+  font-variant-ligatures: none;
+  font-feature-settings: "liga" 0;
+}
+
+.text-editor .ProseMirror p {
+  margin: 0.5rem 0;
+}
+
+.text-editor .ProseMirror h1 {
+  font-size: 2rem;
+  font-weight: 600;
+  margin: 1.5rem 0 1rem 0;
+  line-height: 1.2;
+}
+
+.text-editor .ProseMirror h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 1.25rem 0 0.75rem 0;
+  line-height: 1.3;
+}
+
+.text-editor .ProseMirror h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 1rem 0 0.5rem 0;
+  line-height: 1.4;
+}
+
+.text-editor .ProseMirror h4,
+.text-editor .ProseMirror h5,
+.text-editor .ProseMirror h6 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0.75rem 0 0.25rem 0;
+  line-height: 1.4;
+}
+
+.text-editor .ProseMirror blockquote {
+  border-left: 4px solid #262689;
+  padding-left: 1rem;
+  margin: 1rem 0;
+  font-style: italic;
+  color: #6b7280;
+  background: #f9fafb;
+  border-radius: 0 0.5rem 0.5rem 0;
+}
+
+.text-editor .ProseMirror ul,
+.text-editor .ProseMirror ol {
+  padding-left: 1.5rem;
+  margin: 1rem 0;
+}
+
+.text-editor .ProseMirror li {
+  margin: 0.25rem 0;
+}
+
+.text-editor .ProseMirror ul li {
+  list-style-type: disc;
+}
+
+.text-editor .ProseMirror ol li {
+  list-style-type: decimal;
+}
+
+.text-editor .ProseMirror a {
+  color: #2563eb;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.text-editor .ProseMirror a:hover {
+  color: #1d4ed8;
+}
+
+.text-editor .ProseMirror img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 0.5rem;
+  /* margin: 1rem 0; */
+}
+
+.text-editor .ProseMirror code {
+  background: #192b30;
+  padding: 0.125rem 0.25rem;
+  border-radius: 0.25rem;
+  font-family: "Fira Code", "Consolas", monospace;
+  font-size: 0.875em;
+}
+
+.text-editor .ProseMirror hr {
+  border: none;
+  border-top: 2px solid #0B1315;
+  margin: 2rem 0;
+}
+
+.text-editor .ProseMirror .is-empty::before {
+  color: #9ca3af;
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  pointer-events: none;
+}
+
+/* Ensure editor is always clickable and focusable */
+.text-editor .ProseMirror {
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
+}
+
+.text-editor .ProseMirror:focus {
+  outline: none !important;
+}
+
+/* Make sure the editor content is always visible */
+.text-editor .ProseMirror * {
+  max-width: 100%;
+}
+
+/* Enhanced Image Wrapper Styles */
+.text-editor .image-wrapper {
+  width: 100%;
+  position: relative;
+}
+
+.text-editor .image-wrapper[data-alignment="left"] {
+  text-align: left;
+}
+
+.text-editor .image-wrapper[data-alignment="center"] {
+  text-align: center;
+}
+
+.text-editor .image-wrapper[data-alignment="right"] {
+  text-align: right;
+}
+
+.text-editor .image-wrapper .image-container {
+  display: inline-block;
+  position: relative;
+  max-width: 100%;
+}
+
+.text-editor .image-wrapper:hover .image-container {
+  outline: 2px solid #2e5863;
+  /* outline-offset: 4px; */
+  border-radius: 8px;
+}
+
+.text-editor .image-wrapper img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Alignment controls */
+.text-editor .image-wrapper .alignment-controls {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  background: rgba(46, 46, 46, 0.95);
+  backdrop-filter: blur(8px);
+  border-radius: 8px;
+  padding: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  opacity: 0;
+  transition: opacity 0.2s;
+  display: flex;
+  gap: 2px;
+}
+
+.text-editor .image-wrapper:hover .alignment-controls {
+  opacity: 1;
+}
+
+/* Resize handle */
+.text-editor .image-wrapper .resize-handle {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  width: 16px;
+  height: 16px;
+  background: #262689;
+  cursor: se-resize;
+  opacity: 0;
+  transition: opacity 0.2s;
+  border-radius: 4px;
+}
+
+.text-editor .image-wrapper:hover .resize-handle {
+  opacity: 1;
+}
+
+/* Delete button */
+.text-editor .image-wrapper .delete-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 32px;
+  height: 32px;
+  background: #ef4444;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  opacity: 0;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: bold;
+  line-height: 1;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.text-editor .image-wrapper:hover .delete-btn {
+  opacity: 1;
+}
+
+.text-editor .image-wrapper .delete-btn:hover {
+  background: #dc2626;
+  transform: scale(1.05);
+}
+
+/* Image container styling */
+.text-editor .image-container {
+  position: relative;
+  display: inline-block;
+  margin: 0.5rem 0;
+}
+
+.text-editor .image-container[data-alignment="left"] {
+  text-align: left;
+}
+
+.text-editor .image-container[data-alignment="center"] {
+  text-align: center;
+  display: block;
+}
+
+.text-editor .image-container[data-alignment="right"] {
+  text-align: right;
+  display: block;
+}
+
+/* Removed task list functionality completely */
+
+/* Selection styling */
+.text-editor .ProseMirror ::selection {
+  background: rgba(38, 38, 137, 0.2);
+}
+
+/* Dark mode adjustments */
+.dark .text-editor .ProseMirror {
+  color: #f9fafb;
+}
+
+.dark .text-editor .ProseMirror blockquote {
+  background: #1f2937;
+  border-left-color: #6366f1;
+  color: #9ca3af;
+}
+
+.dark .text-editor .ProseMirror code {
+  background: #374151;
+  color: #e5e7eb;
+}
+
+.dark .text-editor .ProseMirror hr {
+  border-top-color: #374151;
+}
+
+.dark .text-editor .ProseMirror a {
+  color: #60a5fa;
+}
+
+.dark .text-editor .ProseMirror a:hover {
+  color: #93c5fd;
+}
+
+/* Focus states */
+.text-editor .ProseMirror:focus {
+  outline: none;
+}
+
+/* Placeholder styling */
+.text-editor .ProseMirror p.is-editor-empty:first-child::before {
+  color: #9ca3af;
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  pointer-events: none;
+}
+
+.dark .text-editor .ProseMirror p.is-editor-empty:first-child::before {
+  color: #6b7280;
+}
