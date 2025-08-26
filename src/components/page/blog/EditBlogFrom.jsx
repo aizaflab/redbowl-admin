@@ -6,12 +6,12 @@ import { BsImageAlt } from "react-icons/bs";
 import Button from "../../ui/button/Button";
 import { MdNearbyError } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
+import TextEditor from "../../ui/editor/TextEditor";
 import { useEffect, useMemo, useState } from "react";
 import { handleGetContent } from "../../utils/AddBlogHelper";
 import { CloudinarhandleUpload } from "../../../config/Cloudinar";
 import { useGetCategorieQuery } from "../../../features/categorie/categorieApiSlice";
 import { useUpdateBlogMutation } from "../../../features/blogFeatures/blog/blogApiSlice";
-import JoditEditorComponent from "../../../pages/blog/JoditEditorComponent";
 
 export default function EditBlogFrom({ blogData }) {
   const navigate = useNavigate();
@@ -342,7 +342,12 @@ export default function EditBlogFrom({ blogData }) {
       <div className="xl:flex items-start justify-center my-10 gap-5 add-post-editor">
         <div className="sm:p-7 p-4 rounded-md xl:w-9/12 mt-5 xl:mt-0 bg-[#0B1315] border border-[#142225]  relative overflow-hidden">
           <div className="relative z-[50]">
-            <JoditEditorComponent value={content} setValue={setContent} />
+            <TextEditor
+              value={content}
+              onChange={(e) => {
+                setContent(e);
+              }}
+            />
           </div>
           <div className="darkMes size-[45rem]  rounded-full absolute -top-[17rem] -right-64 rotate-45 opacity-30 "></div>
         </div>

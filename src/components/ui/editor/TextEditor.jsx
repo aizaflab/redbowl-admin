@@ -38,9 +38,12 @@ import {
   MoveUp,
   MoveRight,
 } from "lucide-react";
+
+import KeyboardShortcuts from "./KeyboardShortcuts";
 import { cn } from "../../../utils/utils";
 import Button from "../button/Button";
-import KeyboardShortcuts from "./KeyboardShortcuts";
+import { texteditorimageUpload } from "../../../utils/cloudinary";
+
 // import KeyboardShortcuts from "./KeyboardShortcuts";
 
 // Enhanced Image extension with full-width, resizing and alignment capabilities
@@ -303,7 +306,7 @@ const EnhancedTextStyle = TextStyle.extend({
   },
 });
 
-export default function TextEditor() {
+export default function TextEditor({ value = "", onChange, placeholder }) {
   const [linkUrl, setLinkUrl] = useState("");
   const [isLinkMenuOpen, setIsLinkMenuOpen] = useState(false);
   const [isColorMenuOpen, setIsColorMenuOpen] = useState(false);
@@ -315,6 +318,11 @@ export default function TextEditor() {
   const [canUndo, setCanUndo] = useState(false);
   const [canRedo, setCanRedo] = useState(false);
   const [isCodeView, setIsCodeView] = useState(false);
+  // Add state for character count
+  const [characterCount, setCharacterCount] = useState({
+    characters: 0,
+    words: 0,
+  });
 
   const fileInputRef = useRef(null);
   const linkInputRef = useRef(null);
@@ -395,6 +403,14 @@ export default function TextEditor() {
     },
   ];
 
+  // Function to update character count
+  const updateCharacterCount = useCallback((editor) => {
+    if (editor && editor.storage.characterCount) {
+      const characters = editor.storage.characterCount.characters();
+      const words = editor.storage.characterCount.words();
+      setCharacterCount({ characters, words });
+    }
+  }, []);
   // Initialize the editor
   const editor = useEditor({
     extensions: [
@@ -422,8 +438,7 @@ export default function TextEditor() {
       }),
       Placeholder.configure({
         placeholder: () => {
-          // No placeholder text - completely empty
-          return "";
+          return placeholder || "";
         },
         showOnlyWhenEditable: true,
         showOnlyCurrent: false,
@@ -435,9 +450,11 @@ export default function TextEditor() {
       Highlight.configure({
         multicolor: true,
       }),
-      CharacterCount,
+      CharacterCount.configure({
+        limit: null,
+      }),
     ],
-    content: "",
+    content: value || "",
     editable: true,
     editorProps: {
       attributes: {
@@ -447,6 +464,7 @@ export default function TextEditor() {
     onCreate: ({ editor }) => {
       setTimeout(() => {
         editor.commands.focus();
+        updateCharacterCount(editor);
       }, 100);
     },
     onSelectionUpdate: ({ editor }) => {
@@ -468,6 +486,11 @@ export default function TextEditor() {
       // Update undo/redo availability
       setCanUndo(editor.can().undo());
       setCanRedo(editor.can().redo());
+      updateCharacterCount(editor);
+
+      if (onChange) {
+        onChange(editor.getHTML());
+      }
     },
     onUpdate: ({ editor }) => {
       console.log("Editor content updated:", editor.getHTML());
@@ -475,6 +498,7 @@ export default function TextEditor() {
       // Update undo/redo availability on content changes
       setCanUndo(editor.can().undo());
       setCanRedo(editor.can().redo());
+      updateCharacterCount(editor);
     },
   });
   // Handle click outside for dropdowns
@@ -506,17 +530,20 @@ export default function TextEditor() {
 
   // Handle image upload with full width
   const handleImageUpload = useCallback(
-    (event) => {
+    async (event) => {
       const file = event.target.files?.[0];
+      const result = await texteditorimageUpload(event);
+
       if (file && file.type.startsWith("image/")) {
         const reader = new FileReader();
+
         reader.onload = () => {
           if (reader.result && editor) {
             editor
               .chain()
               .focus()
               .setImage({
-                src: reader.result,
+                src: result,
               })
               .run();
           }
@@ -669,7 +696,7 @@ export default function TextEditor() {
       className={cn(
         "h-8 w-8 p-0 transition-all duration-200 text-white ",
         active && "bg-[#1a2c30] text-white hover:bg-[#132023]",
-        !active && "hover:bg-[#132023] hover:text-brand-700 text-white"
+        !active && "hover:bg-[#132023] hover:text-gray-200 text-white"
       )}
       icon={false}
     >
@@ -679,7 +706,7 @@ export default function TextEditor() {
 
   if (!editor) {
     return (
-      <div className="w-full max-w-4xl mx-auto bg-white dark:bg-gray-900 rounded-md  border border-gray-200 dark:border-gray-700 overflow-hidden">
+      <div className="w-full max-w-4xl mx-auto bg-white dark:bg-gray-900 rounded-md  border border-gray-200 dark:border-gray-200 overflow-hidden">
         <div className="p-6 text-center">
           <div className="animate-spin h-8 w-8 text-brand-500 mx-auto mb-4">
             <svg
@@ -1066,10 +1093,8 @@ export default function TextEditor() {
       {/* Status Bar Footer */}
       <div className="flex justify-between items-center px-6 py-2 bg-[#0D171A] border-t border-[#142226] text-sm text-gray-600 dark:text-gray-400">
         <div className="flex items-center gap-4">
-          <span>Words: {editor?.storage?.characterCount?.words() || 0}</span>
-          <span>
-            Characters: {editor?.storage?.characterCount?.characters() || 0}
-          </span>
+          <span>Words: {characterCount.words}</span>
+          <span>Characters: {characterCount.characters}</span>
         </div>
         <div className="flex items-center gap-2">
           <div className="w-2 h-2 bg-green-500 rounded-full"></div>

@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 export default function Login() {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({ email: "", password: "" });
-  const [login] = useLoginMutation();
+  const [login, { isLoading }] = useLoginMutation();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -92,10 +92,11 @@ export default function Login() {
           </div>
           <div className="flex justify-center">
             <button
+              disabled={isLoading}
               type="submit"
               className="px-8 mx-auto bg-mainLight border border-mainLight text-white py-2 rounded hover:bg-transparent transition duration-300 font-sans font-medium mt-4"
             >
-              Login
+              {isLoading ? "Loging..." : "Login"}
             </button>
           </div>
         </form>

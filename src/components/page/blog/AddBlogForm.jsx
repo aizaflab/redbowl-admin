@@ -6,11 +6,9 @@ import Button from "../../ui/button/Button";
 import { MdNearbyError } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useMemo, useState } from "react";
-import { handleGetContent } from "../../utils/AddBlogHelper";
 import { CloudinarhandleUpload } from "../../../config/Cloudinar";
 import { useGetCategorieQuery } from "../../../features/categorie/categorieApiSlice";
 import { useAddBlogMutation } from "../../../features/blogFeatures/blog/blogApiSlice";
-import JoditEditorComponent from "../../../pages/blog/JoditEditorComponent";
 import TextEditor from "../../ui/editor/TextEditor";
 
 export default function AddBlogForm() {
@@ -32,29 +30,15 @@ export default function AddBlogForm() {
   const [liveimg, setLiveImg] = useState(null);
   const [imgError, setImgError] = useState(false);
   const [content, setContent] = useState("");
+  const [isCreateLoading, setIsCreateLoading] = useState(false);
 
-  const [addBlog, { isError, isLoading, isSuccess, error, data: addBlogData }] =
-    useAddBlogMutation();
-  const { data, isLoading: catesIsLoading } = useGetCategorieQuery("");
+  const [addBlog] = useAddBlogMutation();
+  const { data, isLoading: catLoading } = useGetCategorieQuery("");
 
   const categories = useMemo(
     () => (data?.data?.categorys ? data?.data?.categorys : []),
-    [catesIsLoading]
+    [catLoading]
   );
-
-  useEffect(() => {
-    const savedContent = handleGetContent();
-    if (savedContent) {
-      setFormData((prevData) => ({ ...prevData, content: savedContent }));
-    }
-    if (isSuccess) {
-      toast.success(addBlogData?.message);
-      navigate("/manage-blogs");
-    }
-    if (error) {
-      toast.error(error?.data.message);
-    }
-  }, [isError, isLoading, isSuccess, error]);
 
   useEffect(() => {
     if (formData.title && !formData.slugEdited) {
@@ -68,38 +52,63 @@ export default function AddBlogForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    let imagUrl = "";
-    let formDataToSubmit = new FormData();
+    setIsCreateLoading(true);
 
-    if (formData?.image) {
-      const result = await CloudinarhandleUpload(
-        formData?.image,
-        "blog_section"
-      );
-      if (result.status) {
-        imagUrl = result.url;
-      } else {
-        toast.error("Image upload failed!");
-        return;
+    console.log(formData, content);
+
+    try {
+      let imagUrl = "";
+      let formDataToSubmit = new FormData();
+
+      // Upload image if provided
+      if (formData?.image) {
+        const result = await CloudinarhandleUpload(
+          formData?.image,
+          "blog_section"
+        );
+        if (result.status) {
+          imagUrl = result.url;
+        } else {
+          toast.error("Image upload failed!");
+          setIsCreateLoading(false);
+          return;
+        }
       }
+
+      // Append form data
+      formDataToSubmit.append("title", formData.title);
+      formDataToSubmit.append("sub_title", formData.sub_title);
+      formDataToSubmit.append("slug", formData.slug);
+      formDataToSubmit.append("content", content || formData.content || "");
+      formDataToSubmit.append("category", formData.category);
+
+      const seoContent = {
+        metaTitle: formData.metaTitle,
+        metaDescription: formData.metaDescription,
+      };
+      formDataToSubmit.append("seoContent", JSON.stringify(seoContent));
+
+      const banner = {
+        title: formData.pictureImageTitle,
+        image: imagUrl,
+      };
+      formDataToSubmit.append("banner", JSON.stringify(banner));
+
+      console.log("final submit data", formDataToSubmit);
+      // API call
+      const res = await addBlog(formDataToSubmit).unwrap();
+
+      // Success
+      toast.success(res?.message || "Blog created successfully!");
+      navigate("/manage-blogs");
+    } catch (err) {
+      console.error(err);
+      toast.error(
+        err?.data?.message || "Something went wrong while creating blog!"
+      );
+    } finally {
+      setIsCreateLoading(false);
     }
-    // Append form data to formDataToSubmit
-    formDataToSubmit.append("title", formData.title);
-    formDataToSubmit.append("sub_title", formData.sub_title);
-    formDataToSubmit.append("slug", formData.slug);
-    formDataToSubmit.append("content", content);
-    formDataToSubmit.append("category", formData.category);
-    const seoContent = {
-      metaTitle: formData.metaTitle,
-      metaDescription: formData.metaDescription,
-    };
-    formDataToSubmit.append("seoContent", JSON.stringify(seoContent));
-    const banner = {
-      title: formData.pictureImageTitle,
-      image: imagUrl,
-    };
-    formDataToSubmit.append("banner", JSON.stringify(banner));
-    await addBlog(formDataToSubmit);
   };
 
   const handleCategoryChange = (e) => {
@@ -325,7 +334,13 @@ export default function AddBlogForm() {
       <div className="xl:flex items-start justify-center my-10 gap-5 add-post-editor">
         <div className="sm:p-7 p-4 rounded-md xl:w-9/12 mt-5 xl:mt-0 bg-[#0B1315] border border-[#142225]  relative overflow-hidden">
           <div className="relative z-[50]">
-            <JoditEditorComponent value={content} setValue={setContent} />
+            <TextEditor
+              value={content}
+              onChange={(val) => {
+                setContent(val);
+                setFormData((prev) => ({ ...prev, content: val }));
+              }}
+            />
           </div>
           <div className="darkMes size-[45rem]  rounded-full absolute bottom-[6rem] -right-64 rotate-45 opacity-30 "></div>
         </div>
@@ -335,14 +350,12 @@ export default function AddBlogForm() {
       <div className="text-center xl:w-9/12 mx-auto flex items-center justify-end">
         <Button
           type="submit"
-          disabled={isLoading}
+          disabled={isCreateLoading}
           className="bg-[#2f535b] dark:border-[#16272b]"
         >
-          {isLoading ? "Creating..." : "Add Blog"}
+          {isCreateLoading ? "Creating..." : "Add Blog"}
         </Button>
       </div>
-
-      <TextEditor />
     </form>
   );
 }
