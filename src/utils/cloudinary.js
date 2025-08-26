@@ -1,7 +1,5 @@
-const preset = import.meta.env.VITE_APP_CLOUDINARY_PRESET;
-const folder = import.meta.env.VITE_APP_CLOUDINARY_FOLDER;
-const cloudName = import.meta.env.VITE_APP_CLOUDINARY_CLOUD_NAME;
-
+const preset = "blogsection";
+const cloudName = "dhinbqftm";
 export const texteditorimageUpload = async (e) => {
   const file = e.target.files[0];
   if (!file) return;
@@ -9,7 +7,6 @@ export const texteditorimageUpload = async (e) => {
   const data = new FormData();
   data.append("file", file);
   data.append("upload_preset", preset);
-  data.append("folder", folder);
 
   try {
     const res = await fetch(
